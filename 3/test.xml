@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<notizbuch>
+    <notiz>
+        <titel>Meeting</titel>
+        <datum>2023-10-01</datum>
+        <inhalt>Besprechung mit dem Team um 10:00 Uhr.</inhalt>
+    </notiz>
+    <notiz>
+        <titel>Einkaufsliste</titel>
+        <datum>2023-10-02</datum>
+        <inhalt>Milch, Brot, Eier, Butter</inhalt>
+    </notiz>
+</notizbuch>
