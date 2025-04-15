@@ -7,16 +7,16 @@ const moment = require('moment-timezone');
 
 const names = ['Alice', 'Bob', 'Charlie'];
 
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({extended: true}));
 
 app.get('/now', (request, response) => {
-  const tz = request.query.tz || 'Europe/Zurich';
-  const time = moment().tz(tz).format();
-  response.json({ currentTime: time });
+    const tz = request.query.tz || 'Europe/Zurich';
+    const time = moment().tz(tz).format();
+    response.json({currentTime: time});
 });
 
 app.get('/zli', (request, response) => {
-  response.redirect('https://www.zli.ch');
+    response.redirect('https://www.zli.ch');
 });
 
 app.get('/names', (request, response) => {
@@ -24,8 +24,8 @@ app.get('/names', (request, response) => {
     response.send(`Die Namen sind: ${namesList}`);
 });
 app.get('/name', (request, response) => {
-  const randomIndex = Math.floor(Math.random() * names.length);
-  const randomName = names[randomIndex];
+    const randomIndex = Math.floor(Math.random() * names.length);
+    const randomName = names[randomIndex];
 
     response.send(randomName);
 });
@@ -66,11 +66,11 @@ app.get('/image', (request, response) => {
 });
 
 app.get('/teapot', (request, response) => {
-  response.status(418).send("I'm a teapot");
+    response.status(418).send("I'm a teapot");
 });
 
 app.get('/user-agent', (request, response) => {
-  const userAgent = request.get('user-agent');
+    const userAgent = request.get('user-agent');
     response.send(`Your User-Agent is: ${userAgent}`);
 });
 
@@ -81,31 +81,47 @@ app.get('/secret', (request, response) => {
 app.get('/secret2', (request, response) => {
     const auth = request.get('Authorization');
     if (auth === 'Basic aGFja2VyOjEyMzQ=') {
-    return response.status(200).send('🔓 Zugriff gewährt');
-  }
-  response.status(401).send('🚫 Zugriff verweigert');
+        return response.status(200).send('🔓 Zugriff gewährt');
+    }
+    response.status(401).send('🚫 Zugriff verweigert');
 });
 
 app.get('/xml', (request, response) => {
-  response.sendFile(path.join(__dirname, 'test.xml'));
+    response.sendFile(path.join(__dirname, 'test.xml'));
 });
 
 app.get('/me', (request, response) => {
- const person = {
-    vorname: "Max",
-    nachname: "Mustermann",
-    alter: 30,
-    wohnort: "Zürich",
-    augenfarbe: "braun"
-  };
-  response.json(person);
+    const person = {
+        vorname: "Max",
+        nachname: "Mustermann",
+        alter: 30,
+        wohnort: "Zürich",
+        augenfarbe: "braun"
+    };
+    response.json(person);
 });
 
-app.get('/chuck', (request, response) => {
+app.get('/chuck', async (request, response) => {
+    try {
+        const name = request.query.name || 'Chuck';
+        const reponse = await fetch('https://api.chucknorris.io/jokes/random');
+        const data = await reponse.json();
+        const joke = data.value.replace(/Chuck Norris/g, name);
+
+        response.send(joke);
+
+    } catch (err) {
+        console.log(err)
+    }
+});
+
+app.patch('/me', (request, response) => {
+   const updates = request.body;
+    Object.assign(me, updates);
 
 });
 
 
 app.listen(port, () => {
-  console.log(`Server läuft auf Port ${port}`);
+    console.log(`Server läuft auf Port ${port}`);
 });
