@@ -7,7 +7,8 @@ const path = require('path');
 
 app.get('/now', (request, response) => {
   const time = new Date().toISOString();
-  response.json({ currentTime: time }); // Zeit in einem JSON-Objekt zurückgeben
+    const timezone = request.query.tz || 'UTC';
+    response.json({ currentTime: time });
 });
 
 app.get('/zli', (request, response) => {
